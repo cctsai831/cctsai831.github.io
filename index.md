@@ -1,6 +1,6 @@
 # Quick Note
 
-[Link to add](./add.html).
+[Link to Bioinformatics](./add.html).
 
 ``` graphviz
 digraph {
