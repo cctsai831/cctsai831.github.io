@@ -1,6 +1,6 @@
 # Quick Note
 
-[Link to Bioinformatics](./add.html).
+[Jupyter Notebook in Browser](./add.html).
 
 ``` graphviz
 digraph {
