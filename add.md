@@ -1,4 +1,4 @@
-# No VS Code & Jupyter Notebook in Browser
+# Jupyter Notebook in Browser
 
 假設已經使用
 ```
