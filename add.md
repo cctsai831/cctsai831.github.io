@@ -1,49 +1,43 @@
-# Quick Note II
+# No VS Code & Jupyter Notebook in Browser
 
-``` graphviz
-digraph {
-    rankdir=LR;
-    splines=false;
-    {
-        node [shape=circle];
-        x1 [label=<x<sub>1</sub>>];
-        x2 [label=<x<sub>2</sub>>];
-        x3 [label=<x<sub>3</sub>>];
-    }
-    {
-        rank=same;
-        x1;
-        x2;
-        x3;
-    }
-    
-    {
-        node [shape=circle];
-        a1 [label=<a<sub>1</sub><sup>(2)</sup>>];
-        a2 [label=<a<sub>2</sub><sup>(2)</sup>>];
-        a3 [label=<a<sub>3</sub><sup>(2)</sup>>];
-        a4 [label=<a<sub>4</sub><sup>(2)</sup>>];
-    }
-    {
-        rank=same;
-        a1;
-        a2;
-        a3;
-        a4;
-    }
-    
-    {
-        node [shape=circle];
-        o1 [label=<y<sub>1</sub>>];
-        o2 [label=<y<sub>2</sub>>];
-    }
-    {
-        rank=same;
-        o1;
-        o2;
-    }
-    
-    {x1;x2;x3} -> {a1, a2, a3, a4};
-    {a1;a2;a3;a4} -> {o1, o2}
-}
+假設已經使用
 ```
+docker run --gpus all --shm-size 128G --name foo -v /path/to/where/u/want/to/start:/workspace -ti docker/image/name/or/ID bash
+```
+run 一個 docker container。首先，要找到此容器的 `IPAddress`，藉由
+```
+docker inspect foo | grep "IPAddress"
+```
+再來，執行
+```
+docker attach foo
+```
+進入到容器內，以
+```
+pip list | grep notebook
+```
+確認 notebook 有被安裝到正確版本（即 6.5.7），然後執行
+```
+jupyter notebook --no-browser --ip 0.0.0.0 --allow-root
+```
+只要看到
+```
+Jupyter Notebook 6.5.7 is running at:
+```
+顯示在終端機就可以開啟另一個終端機繼續進行。在另一個終端機上，先執行
+```
+ssh -NL 1111:IPAddress:8888 user@remote/server/IP
+```
+然後在本地端開啟 Google Chrome 並輸入
+```
+localhost:1111
+```
+如果看到
+```
+Token authentication is enabled
+```
+且要求輸入 Password or Token，則在前一個終端機中找到
+```
+token=xxxxxxxxxxzzzzzzzzzz
+```
+並將 `xxxxxxxxxxzzzzzzzzzz` 依照要求輸入，至此結束。
